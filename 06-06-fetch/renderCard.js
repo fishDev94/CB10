@@ -1,3 +1,5 @@
+
+// Funzione che renderizza una singola card
 export const renderCard = (titleCard, image, container) => {
     const productCard = document.createElement('div');
         const title = document.createElement('p');
@@ -12,6 +14,7 @@ export const renderCard = (titleCard, image, container) => {
       return titleCard
   }
 
+  // funzione di renderList, pulisce il container e renderizza un array di cards
   export const renderList = (dataList, container) => {
     container.innerHTML = "";
 

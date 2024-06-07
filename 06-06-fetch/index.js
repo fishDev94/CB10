@@ -9,7 +9,7 @@ fetch("https://fakestoreapi.com/products")
   .then((res) => res.json())
   // then - attesa della risposta json
   .then((data) => {
-    // fase di creazione delle card
+    // renderizziamo la lista di prodotti
     renderList(data, containerEl);
 
     searchBarEl.addEventListener("input", (event) => {
@@ -17,6 +17,8 @@ fetch("https://fakestoreapi.com/products")
       filterProducts(inputValue, data);
     });
   })
+  // Esempio di ErrorHandler
+  // Catturiamo l'errore e gestiamo il comportamento dell'app
   .catch((err) => {
     console.error("SONO l'ERRORE", err);
 
@@ -25,13 +27,6 @@ fetch("https://fakestoreapi.com/products")
 
     containerEl.append(title);
   });
-
-//   .catch((err) => {
-//     const title = document.createElement("h1");
-//     title.textContent = "Errore nel caricamento dei prodotti";
-
-//     containerEl.append(title)
-// })
 
 function filterProducts(title, data) {
   const filteredProducts = data.filter((product) => {
@@ -42,10 +37,14 @@ function filterProducts(title, data) {
   renderList(filteredProducts, containerEl);
 }
 
-fetch("https://api.themoviedb.org/3/movie/popular?page=2", {
+// Object options richiesto dall'API Moviedb affinchè la nostra chiamata sia autorizzata.
+const options = {
   headers: {
-    Authorization: `Bearer ${API_KEY}`
-  }
-})
+    Authorization: `Bearer ${API_KEY}`,
+  },
+};
+
+// Fetch a movieDB
+fetch("https://api.themoviedb.org/3/movie/popular?page=2", options)
   .then((res) => res.json())
-  .then(data => console.log(data));
+  .then((data) => console.log(data));
