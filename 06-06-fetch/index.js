@@ -1,28 +1,51 @@
-const containerEl = document.querySelector(".container");
-// import data from './data.json' with { type: "json" };
+import { API_KEY } from "./keys.js";
+import { renderList } from "./renderCard.js";
 
-// console.log(data);
+const containerEl = document.querySelector(".container");
+const searchBarEl = document.querySelector(".searchbar");
 
 fetch("https://fakestoreapi.com/products")
-// then - attesa della chiamata fetch
-.then((res) => res.json())
-// then - attesa della risposta json
-.then((data) => {
-    // fase di creazione della card
-      const productCard = document.createElement('div');
-      const title = document.createElement('p');
-      const productImage = document.createElement('img');
-      productCard.classList.add('product-card');
-      title.textContent = data[0].title;
-      productImage.src = data[0].image
+  // then - attesa della chiamata fetch
+  .then((res) => res.json())
+  // then - attesa della risposta json
+  .then((data) => {
+    // fase di creazione delle card
+    renderList(data, containerEl);
 
-      productCard.append(productImage, title);
-      containerEl.append(productCard);
-    console.log("DATA", data);
+    searchBarEl.addEventListener("input", (event) => {
+      const inputValue = event.target.value.toLowerCase();
+      filterProducts(inputValue, data);
+    });
+  })
+  .catch((err) => {
+    console.error("SONO l'ERRORE", err);
+
+    const title = document.createElement("h1");
+    title.textContent = "Errore nel caricamento dei prodotti";
+
+    containerEl.append(title);
   });
 
-  // console log di una Promise - sincrono
-console.log("PROMISE", fetch("https://fakestoreapi.com/products"));
+//   .catch((err) => {
+//     const title = document.createElement("h1");
+//     title.textContent = "Errore nel caricamento dei prodotti";
 
-  // console log di una stringa - sincrono
-console.log("potrebbe essere dopo la fetch");
+//     containerEl.append(title)
+// })
+
+function filterProducts(title, data) {
+  const filteredProducts = data.filter((product) => {
+    return product.title.toLowerCase().includes(title);
+  });
+
+  containerEl.innerHTML = "";
+  renderList(filteredProducts, containerEl);
+}
+
+fetch("https://api.themoviedb.org/3/movie/popular?page=2", {
+  headers: {
+    Authorization: `Bearer ${API_KEY}`
+  }
+})
+  .then((res) => res.json())
+  .then(data => console.log(data));
