@@ -6,8 +6,8 @@
 
 .product-card {
     flex: 0 0 auto;
-    width: 100px;
-    height: 240px;
+    width: 200px;
+    height: auto;
     overflow: hidden;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.355);
     padding: 10px;

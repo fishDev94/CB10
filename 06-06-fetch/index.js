@@ -1,50 +1,60 @@
+import { GET } from "./GET.js";
 import { API_KEY } from "./keys.js";
 import { renderList } from "./renderCard.js";
 
 const containerEl = document.querySelector(".container");
 const searchBarEl = document.querySelector(".searchbar");
+const buttonPage = document.querySelector(".button-page");
+const categoryBtnContainer = document.querySelector(".category-container");
 
-fetch("https://fakestoreapi.com/products")
-  // then - attesa della chiamata fetch
-  .then((res) => res.json())
-  // then - attesa della risposta json
-  .then((data) => {
-    // renderizziamo la lista di prodotti
-    renderList(data, containerEl);
+let actualCategory = '';
+let actualType = 'movie';
+let pageNumber = 1;
 
-    searchBarEl.addEventListener("input", (event) => {
-      const inputValue = event.target.value.toLowerCase();
-      filterProducts(inputValue, data);
-    });
-  })
-  // Esempio di ErrorHandler
-  // Catturiamo l'errore e gestiamo il comportamento dell'app
-  .catch((err) => {
-    console.error("SONO l'ERRORE", err);
+categoryBtnContainer.addEventListener("click", (e) => {
+  const categoryId = e.target.id;
 
-    const title = document.createElement("h1");
-    title.textContent = "Errore nel caricamento dei prodotti";
+  if (e.target.tagName === "BUTTON") {
+    actualCategory = `${actualType}/${categoryId}`;
+    pageNumber = 1;
 
-    containerEl.append(title);
-  });
+    render(actualCategory)
+  } else {
+    console.log("fuori");
+  }
 
-function filterProducts(title, data) {
-  const filteredProducts = data.filter((product) => {
-    return product.title.toLowerCase().includes(title);
-  });
-
-  containerEl.innerHTML = "";
-  renderList(filteredProducts, containerEl);
-}
+})
 
 // Object options richiesto dall'API Moviedb affinchè la nostra chiamata sia autorizzata.
-const options = {
-  headers: {
-    Authorization: `Bearer ${API_KEY}`,
-  },
-};
 
 // Fetch a movieDB
-fetch("https://api.themoviedb.org/3/movie/popular?page=2", options)
-  .then((res) => res.json())
-  .then((data) => console.log(data));
+// const pippo = fetch("https://api.themoviedb.org/3/movie/popular?page=1&include_adult=false", {
+//   headers: {
+//     Authorization: `Bearer ${API_KEY}`,
+//   },
+// })
+//   .then((res) => res.json())
+//   .then((data) => {
+//     return data;
+//     // renderList(data.results, containerEl);
+//   });
+
+
+
+const render = async (endpoint) => {
+  const movieResponse = await GET(endpoint, pageNumber)
+
+  renderList(movieResponse.results, containerEl);
+
+}
+
+render(`${actualType}/popular`);
+actualCategory = `${actualType}/popular`;
+
+buttonPage.addEventListener("click", () => {
+  pageNumber++;
+  render(actualCategory);
+});
+
+console.log(await GET('genre/movie/list'))
+
