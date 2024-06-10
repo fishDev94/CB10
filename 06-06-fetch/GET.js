@@ -11,9 +11,7 @@ import { renderList } from "./renderCard.js";
 //     })
 // }
 
-// ASYNC FUNCTION
-// async function GET() {
-// }
+const BASE_URL = "https://api.themoviedb.org/3/";
 
 const options = {
   headers: {
@@ -21,11 +19,23 @@ const options = {
   },
 };
 
-// categorie = "https://api.themoviedb.org/3/genre/movie/list"
-//popularlist= "https://api.themoviedb.org/3/movie/popular"
 
+// ASYNC FUNCTION
+// async function GET() {
+//   const response = await fetch(
+//     `${BASE_URL}${endpoint}?page=${page}&include_adult=false`,
+//     options
+//   );
 
-const BASE_URL = "https://api.themoviedb.org/3/"
+//   const data = await response.json();
+
+//   console.log("log di get", {
+//     page: data.page,
+//     endpoint,
+//   });
+
+//   return data;
+// }
 
 // ASYNC ARROW FUNCTION
 export const GET = async (endpoint, page = 1) => {
@@ -35,8 +45,6 @@ export const GET = async (endpoint, page = 1) => {
   );
 
   const data = await response.json();
-
-  console.log(data)
 
   console.log("log di get", {
     page: data.page,

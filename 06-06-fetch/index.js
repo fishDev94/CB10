@@ -7,18 +7,21 @@ const searchBarEl = document.querySelector(".searchbar");
 const buttonPage = document.querySelector(".button-page");
 const categoryBtnContainer = document.querySelector(".category-container");
 
-let actualCategory = '';
+let actualEndpoint = '';
 let actualType = 'movie';
 let pageNumber = 1;
 
 categoryBtnContainer.addEventListener("click", (e) => {
+  // abbiamo definito sull'HTML degli ID di tipo:
+  // 'popular' 'top_rated'
   const categoryId = e.target.id;
 
   if (e.target.tagName === "BUTTON") {
-    actualCategory = `${actualType}/${categoryId}`;
+    // componiamo l'endpoint movie/popular o movie/top_rated
+    actualEndpoint = `${actualType}/${categoryId}`;
     pageNumber = 1;
 
-    render(actualCategory)
+    render(actualEndpoint)
   } else {
     console.log("fuori");
   }
@@ -45,16 +48,20 @@ const render = async (endpoint) => {
   const movieResponse = await GET(endpoint, pageNumber)
 
   renderList(movieResponse.results, containerEl);
-
 }
 
 render(`${actualType}/popular`);
-actualCategory = `${actualType}/popular`;
+actualEndpoint = `${actualType}/popular`;
 
 buttonPage.addEventListener("click", () => {
+  // incrementiamo la pagina
   pageNumber++;
-  render(actualCategory);
+
+  // renderizziamo la nuova pagina con l'endpoint corrente
+  render(actualEndpoint);
 });
 
+// console log della lista dei generi dei movie
+// abbiamo a disposizione anche la lista dei generi delle tv series? proviamo:
 console.log(await GET('genre/movie/list'))
 

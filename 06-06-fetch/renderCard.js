@@ -6,6 +6,9 @@ export const renderCard = (movie, container) => {
         const productImage = document.createElement('img');
         productCard.classList.add('product-card');
 
+        // condizionale per stampare il title in quantoù
+        // l'oggetto per la serie è diverso rispetto al movie
+        //
         // title.textContent = movie.title ? movie.title : movie.name;
         // title.textContent = movie.title || movie.name;
         title.textContent = movie.title ?? movie.name;
@@ -20,7 +23,7 @@ export const renderCard = (movie, container) => {
     container.innerHTML = "";
 
     dataList.forEach((item) => {
-      // 
+      //passiamo tutto l'oggetto movie a renderCard
         renderCard(item, container);
       });
   }
