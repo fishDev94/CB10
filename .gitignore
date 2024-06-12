@@ -1,5 +1,6 @@
 check
 keys.js
+index-test.js
 
 # Macos storage information
 .DS_Store

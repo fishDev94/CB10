@@ -37,19 +37,17 @@ const options = {
 //   return data;
 // }
 
+// query = "with_genres=28"
+// GET('discover/movie', actualPage, `with_genres=${id}`)
+
 // ASYNC ARROW FUNCTION
-export const GET = async (endpoint, page = 1) => {
+export const GET = async (endpoint, page = 1, query = "") => {
   const response = await fetch(
-    `${BASE_URL}${endpoint}?page=${page}&include_adult=false`,
+    `${BASE_URL}${endpoint}?page=${page}&include_adult=false&${query}`,
     options
   );
 
   const data = await response.json();
-
-  console.log("log di get", {
-    page: data.page,
-    endpoint,
-  });
 
   return data;
 };
