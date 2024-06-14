@@ -31,3 +31,5 @@ containerEl.addEventListener('click', (e) => {
         localStorage.removeItem('user')
     }
 })
+
+console.log('test modifica')
